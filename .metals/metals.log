@@ -1,0 +1,63 @@
+[0m2021.05.24 17:04:29 INFO  Started: Metals version 0.10.3 in workspace '/home/alainaf/project2/projecttwo' for client Visual Studio Code 1.56.2.[0m
+[0m2021.05.24 17:04:31 INFO  time: initialize in 1.76s[0m
+[0m2021.05.24 17:04:31 WARN  Build server is not auto-connectable.[0m
+[0m2021.05.24 17:04:37 WARN  no build target for: /home/alainaf/project2/projecttwo/build.sbt[0m
+[0m2021.05.24 17:04:41 INFO  no build target: using presentation compiler with only scala-library: 2.12.13[0m
+[0m2021.05.24 17:04:44 INFO  time: code lens generation in 6.14s[0m
+[0m2021.05.24 17:04:44 INFO  time: code lens generation in 4.09s[0m
+[0m2021.05.24 17:04:44 INFO  time: code lens generation in 7.11s[0m
+[0m2021.05.24 17:05:27 WARN  no build target for: /home/alainaf/project2/projecttwo/build.sbt[0m
+[0m2021.05.24 17:05:31 INFO  running '/home/alainaf/.sdkman/candidates/java/current/bin/java -Djline.terminal=jline.UnsupportedTerminal -Dsbt.log.noformat=true -Dfile.encoding=UTF-8 -jar /tmp/metals8607251985037160249/sbt-launch.jar -Dbloop.export-jar-classifiers=sources bloopInstall'[0m
+[0m2021.05.24 17:05:31 WARN  no build target for: /home/alainaf/project2/projecttwo/project/metals.sbt[0m
+[0m2021.05.24 17:05:31 WARN  no build target for: /home/alainaf/project2/projecttwo/project/project/metals.sbt[0m
+[0m2021.05.24 17:05:49 INFO  [info] welcome to sbt 1.5.2 (AdoptOpenJDK Java 1.8.0_292)[0m
+[0m2021.05.24 17:06:00 INFO  [info] loading settings for project projecttwo-build-build from metals.sbt ...[0m
+[0m2021.05.24 17:06:06 INFO  [info] loading project definition from /home/alainaf/project2/projecttwo/project/project[0m
+[0m2021.05.24 17:06:15 INFO  [info] loading settings for project projecttwo-build from metals.sbt ...[0m
+[0m2021.05.24 17:06:15 INFO  [info] loading project definition from /home/alainaf/project2/projecttwo/project[0m
+[0m2021.05.24 17:06:25 INFO  [success] Generated .bloop/projecttwo-build.json[0m
+[0m2021.05.24 17:06:25 INFO  [info] compiling 1 Scala source to /home/alainaf/project2/projecttwo/project/target/scala-2.12/sbt-1.0/classes ...[0m
+[0m2021.05.24 17:06:37 INFO  [info] done compiling[0m
+[0m2021.05.24 17:06:37 INFO  [success] Total time: 22 s, completed May 24, 2021 5:06:38 PM[0m
+[0m2021.05.24 17:06:42 INFO  [info] loading settings for project root from build.sbt ...[0m
+[0m2021.05.24 17:06:42 INFO  [info] set current project to MovieLens (in build file:/home/alainaf/project2/projecttwo/)[0m
+[0m2021.05.24 17:07:09 INFO  [success] Generated .bloop/root.json[0m
+[0m2021.05.24 17:07:09 INFO  [success] Generated .bloop/root-test.json[0m
+[0m2021.05.24 17:07:09 INFO  [success] Total time: 26 s, completed May 24, 2021 5:07:09 PM[0m
+[0m2021.05.24 17:07:09 INFO  sbt bloopInstall exit: 0[0m
+[0m2021.05.24 17:07:09 INFO  time: ran 'sbt bloopInstall' in 1m38s[0m
+[0m2021.05.24 17:07:09 INFO  Attempting to connect to the build server...[0m
+Starting the bsp launcher for bloop...
+Opening a bsp server connection with 'bsp --protocol local --socket /tmp/bsp-launcher7975874044503766554/bsp.socket'...
+Waiting for the bsp connection to come up...
+Waiting for the bsp connection to come up...
+[0m[32m[D][0m Loading 2 projects from '/home/alainaf/project2/projecttwo/.bloop'...
+[0m[32m[D][0m Loading project from '/home/alainaf/project2/projecttwo/.bloop/root.json'
+[0m[32m[D][0m Loading project from '/home/alainaf/project2/projecttwo/.bloop/root-test.json'
+[0m[32m[D][0m Missing analysis file for project 'root'
+[0m[32m[D][0m Missing analysis file for project 'root-test'
+[0m[32m[D][0m Waiting for a connection at local:///tmp/bsp-launcher7975874044503766554/bsp.socket...
+The server is listening for incoming connections at local:///tmp/bsp-launcher7975874044503766554/bsp.socket...
+Starting thread that pumps stdin and redirects it to the bsp server...
+Starting thread that pumps server stdout and redirects it to the client stdout...
+[0m2021.05.24 17:07:12 INFO  tracing is disabled for protocol BSP, to enable tracing of incoming and outgoing JSON messages create an empty file at /home/alainaf/.cache/metals/bsp.trace.json[0m
+[0m2021.05.24 17:07:13 INFO  Attempting to connect to the build server...[0m
+Starting the bsp launcher for bloop...
+Opening a bsp server connection with 'bsp --protocol local --socket /tmp/bsp-launcher5318296929054848235/bsp.socket'...
+Waiting for the bsp connection to come up...
+[0m[32m[D][0m Loading workspace settings from bloop.settings.json
+[0m[32m[D][0m Waiting for a connection at local:///tmp/bsp-launcher5318296929054848235/bsp.socket...
+The server is listening for incoming connections at local:///tmp/bsp-launcher5318296929054848235/bsp.socket...
+Starting thread that pumps stdin and redirects it to the bsp server...
+Starting thread that pumps server stdout and redirects it to the client stdout...
+[0m2021.05.24 17:07:13 INFO  tracing is disabled for protocol BSP, to enable tracing of incoming and outgoing JSON messages create an empty file at /home/alainaf/.cache/metals/bsp.trace.json[0m
+[0m2021.05.24 17:07:13 INFO  time: Connected to build server in 3.3s[0m
+[0m2021.05.24 17:07:13 INFO  Connected to Build server: Bloop v1.4.8-19-4d9f966b[0m
+[0m2021.05.24 17:07:13 INFO  time: Imported build in 0.56s[0m
+[0m2021.05.24 17:07:42 INFO  time: indexed workspace in 28s[0m
+[0m2021.05.24 17:07:48 INFO  time: code lens generation in 2.85s[0m
+[0m2021.05.24 17:10:00 INFO  skipping build import with status 'Installed'[0m
+[0m2021.05.24 17:10:01 INFO  compiling projecttwo-build (1 scala source)[0m
+May 24, 2021 5:10:10 PM org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
+INFO: Unsupported notification method: $/setTrace
+[0m2021.05.24 17:10:13 INFO  time: compiled projecttwo-build in 12s[0m
