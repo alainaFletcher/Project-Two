@@ -61,3 +61,4 @@ Starting thread that pumps server stdout and redirects it to the client stdout..
 May 24, 2021 5:10:10 PM org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
 INFO: Unsupported notification method: $/setTrace
 [0m2021.05.24 17:10:13 INFO  time: compiled projecttwo-build in 12s[0m
+[0m2021.05.24 17:25:24 INFO  skipping build import with status 'Installed'[0m
