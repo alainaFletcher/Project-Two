@@ -7,7 +7,7 @@ ThisBuild / organizationName := "example"
 
 lazy val root = (project in file("."))
   .settings(
-    name := "MovieLens",
+    name := "ProjectTwo",
     libraryDependencies += scalaTest % Test,
     // https://mvnrepository.com/artifact/org.apache.spark/spark-core
     libraryDependencies += "org.apache.spark" %% "spark-core" % "3.1.1",
