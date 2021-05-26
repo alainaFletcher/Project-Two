@@ -39,6 +39,7 @@ object Main {
     // timeSeriesDeathsUsDF.show(20)
     // timeSeriesRecoveredDF.show(20)
     deathConfRatio(spark)
+    usDeathConfirmedRatio(spark)
     
   }
   // method to get death/confirmed case ration from 10 different countries
@@ -49,7 +50,7 @@ object Main {
     val timeSeriesDeathsDF = spark.read.format("csv").option("header", "true") .option("mode", "DROPMALFORMED").load("time_series_covid_19_deaths.csv")
     // reducing time series to country/region and latest date as confirmed/deaths respectively
     val timeSeriesConfirmedDF1 = timeSeriesConfirmedDF.select(col("Country/Region"),col("5/2/21").as("confirmed"))
-    val timeSeriesDeathsDF1 = timeSeriesDeathsDF.select(col("Country/Region"),col("5/2/21").as("deaths")) 
+    val timeSeriesDeathsDF1 = timeSeriesDeathsDF.select(col("Country/Region"),col("5/2/21").as("deaths"))
     // summing duplicate country/regions and removing the duplicates
     val timeConfReduced = timeSeriesConfirmedDF1.groupBy("Country/Region").agg(sum("confirmed")).orderBy("Country/Region")
     val timeDeathReduced = timeSeriesDeathsDF1.groupBy("Country/Region").agg(sum("deaths")).orderBy("Country/Region")
@@ -68,4 +69,29 @@ object Main {
        .show()
     
   }
+
+  // method to get death/confirmed case ration from 5 states with high death
+  def usDeathConfirmedRatio(spark: SparkSession) = {
+    import spark.implicits._
+     // loading our tables once again
+    val timeSeriesConfirmedDF = spark.read.format("csv").option("header", "true") .option("mode", "DROPMALFORMED").load("time_series_covid_19_confirmed_US.csv")
+    val timeSeriesDeathsDF = spark.read.format("csv").option("header", "true") .option("mode", "DROPMALFORMED").load("time_series_covid_19_deaths_US.csv")
+    // reducing time series to country/region and latest date as confirmed/deaths respectively
+    val timeSeriesConfirmedDF1 = timeSeriesConfirmedDF.select(col("Province_State"),col("5/2/21").as("confirmed"))
+    val timeSeriesDeathsDF1 = timeSeriesDeathsDF.select(col("Province_State"),col("5/2/21").as("deaths"))
+    // summing duplicate country/regions and removing the duplicates
+    val timeConfReduced = timeSeriesConfirmedDF1.groupBy("Province_State").agg(sum("confirmed")).orderBy("Province_State")
+    val timeDeathReduced = timeSeriesDeathsDF1.groupBy("Province_State").agg(sum("deaths")).orderBy("Province_State")
+    // creating table with country, confirmed, deaths
+    val timeConfDeath = timeDeathReduced.join(timeConfReduced, timeDeathReduced("Province_State").as("dup") === timeConfReduced("Province_State"))
+      .select(timeDeathReduced("Province_State"), col("sum(confirmed)").as("confirmed"),col("sum(deaths)").as("deaths")).orderBy(timeDeathReduced("Province_State"))
+    // adding our ratio of deaths/case
+    val timeConfDeath1 = timeConfDeath.withColumn("Deaths/Confirmed", round(col("deaths")/col("confirmed"), 6))
+    // showing top 5 states with highest amount of deaths
+    //timeConfDeath1.orderBy($"Deaths/Confirmed".desc).show()
+    timeConfDeath1.orderBy($"deaths".desc).show(5)
+
+  }
+
+
 }
