@@ -52,7 +52,8 @@ object Main {
     // timeSeriesDeathsUsDF.show(20)
     // timeSeriesRecoveredDF.show(20)
     deathConfRatio(spark)
-    usDeathConfirmedRatio(spark)
+    //usDeathConfirmedRatio(spark)
+    usDeathConfirmedRatioSQL(spark)
     
   }
 >>>>>>> 9095562e8b94d9a48be2d1aa63ba93abe532a704
@@ -247,9 +248,26 @@ object Main {
     // adding our ratio of deaths/case
     val timeConfDeath1 = timeConfDeath.withColumn("Deaths/Confirmed", round(col("deaths")/col("confirmed"), 6))
     // showing top 5 states with highest amount of deaths
-    //timeConfDeath1.orderBy($"Deaths/Confirmed".desc).show()
-    timeConfDeath1.orderBy($"deaths".desc).show(5)
+    timeConfDeath1.orderBy($"Deaths/Confirmed".desc).show()
+    //timeConfDeath1.orderBy($"deaths".desc).show(5)
 
+  }
+
+  def usDeathConfirmedRatioSQL(spark: SparkSession) = {
+
+  val timeSeriesConfirmedDF = spark.read.format("csv").option("header", "true") .option("mode", "DROPMALFORMED").load("time_series_covid_19_confirmed_US.csv")
+  val timeSeriesDeathsDF = spark.read.format("csv").option("header", "true") .option("mode", "DROPMALFORMED").load("time_series_covid_19_deaths_US.csv")
+  //creates temp table to run sql quries on
+  timeSeriesConfirmedDF.registerTempTable("confirmed")
+  timeSeriesDeathsDF .registerTempTable("death")
+  //summing the last table in the time series and ordering it from highest to lowest
+  val conf = spark.sql("select Province_State, sum(`5/2/21`) as Confirmed from confirmed group by (Province_State) order by (Confirmed) desc")
+  val deth = spark.sql("select Province_State, sum(`5/2/21`) as Deaths from death group by (Province_State) order by (Deaths) desc")
+  //creating temp table of the sum data
+  conf.registerTempTable("sumconfirmed")
+  deth.registerTempTable("sumdeath")
+  //joining the tables and calculating the ratio for each Province _state and dispalying the highest 5 D/C Ratio
+  spark.sql("select c.Province_State, Confirmed, Deaths, round((Deaths/confirmed),6) as DC_Ratio from sumconfirmed as c join sumdeath as d where c.Province_State = d.Province_State order by (DC_Ratio) desc limit 5"). show()
   }
 
 
