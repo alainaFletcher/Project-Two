@@ -266,8 +266,11 @@ object Main {
   //creating temp table of the sum data
   conf.registerTempTable("sumconfirmed")
   deth.registerTempTable("sumdeath")
-  //joining the tables and calculating the ratio for each Province _state and dispalying the highest 5 D/C Ratio
-  spark.sql("select c.Province_State, Confirmed, Deaths, round((Deaths/confirmed),6) as DC_Ratio from sumconfirmed as c join sumdeath as d where c.Province_State = d.Province_State order by (DC_Ratio) desc limit 6"). show()
+  //joining the tables and calculating the ratio for each Province _state and dispalying the highest 5 D/C Ratio and filter our the cruise ship
+  val results = spark.sql("select c.Province_State, Confirmed, Deaths, round((Deaths/confirmed),6) as CD_Ratio from sumconfirmed as c join sumdeath as d where c.Province_State = d.Province_State and not c.Province_State = 'Grand Princess' ")
+  results.createOrReplaceTempView("results")
+  spark.sql("select * from results order by (CD_Ratio) desc limit 5").show
+
   }
 
 
