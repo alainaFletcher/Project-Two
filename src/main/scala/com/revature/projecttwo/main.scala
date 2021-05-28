@@ -3,12 +3,10 @@ package com.revature.projecttwo
 import org.apache.spark.SparkConf
 import org.apache.spark.SparkContext
 import org.apache.spark.sql.SparkSession
-<<<<<<< HEAD
-=======
 // added _ to be able to use col on data frames and create aliases
->>>>>>> 9095562e8b94d9a48be2d1aa63ba93abe532a704
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.DataFrameReader
+
 
 object Main {
   def main(args: Array[String]): Unit = {
@@ -35,27 +33,15 @@ object Main {
     val timeSeriesDeathsUsDF = spark.read.format("csv").option("header", "true") .option("mode", "DROPMALFORMED").load("time_series_covid_19_deaths_US.csv")
     val timeSeriesRecoveredDF = spark.read.format("csv").option("header", "true") .option("mode", "DROPMALFORMED").load("time_series_covid_19_recovered.csv")
     
-<<<<<<< HEAD
         
-  deathConfRatio(spark)
-  usDeathConfirmedRatio(spark)
-  festiveDeaths(spark)
+  //deathConfRatio(spark)
+  //usDeathConfirmedRatio(spark)
+  //festiveDeaths(spark)
   monthlyDRratio(spark)
     
   }
 
-=======
-    //genCovidDF.show(20)
-    // timeSereiesDF.show(20)
-    // timeSereiesUsDF.show(20)
-    // timeSeriesDeathsDF.show(20)
-    // timeSeriesDeathsUsDF.show(20)
-    // timeSeriesRecoveredDF.show(20)
-    deathConfRatio(spark)
-    usDeathConfirmedRatio(spark)
-    
-  }
->>>>>>> 9095562e8b94d9a48be2d1aa63ba93abe532a704
+  
   // method to get death/confirmed case ration from 10 different countries
   def deathConfRatio(spark: SparkSession) = {
     import spark.implicits._
@@ -64,11 +50,7 @@ object Main {
     val timeSeriesDeathsDF = spark.read.format("csv").option("header", "true") .option("mode", "DROPMALFORMED").load("time_series_covid_19_deaths.csv")
     // reducing time series to country/region and latest date as confirmed/deaths respectively
     val timeSeriesConfirmedDF1 = timeSeriesConfirmedDF.select(col("Country/Region"),col("5/2/21").as("confirmed"))
-<<<<<<< HEAD
     val timeSeriesDeathsDF1 = timeSeriesDeathsDF.select(col("Country/Region"),col("5/2/21").as("deaths")) 
-=======
-    val timeSeriesDeathsDF1 = timeSeriesDeathsDF.select(col("Country/Region"),col("5/2/21").as("deaths"))
->>>>>>> 9095562e8b94d9a48be2d1aa63ba93abe532a704
     // summing duplicate country/regions and removing the duplicates
     val timeConfReduced = timeSeriesConfirmedDF1.groupBy("Country/Region").agg(sum("confirmed")).orderBy("Country/Region")
     val timeDeathReduced = timeSeriesDeathsDF1.groupBy("Country/Region").agg(sum("deaths")).orderBy("Country/Region")
@@ -78,25 +60,17 @@ object Main {
     // adding our ratio of deaths/case
     val timeConfDeath1 = timeConfDeath.withColumn("Deaths/Confirmed", round(col("deaths")/col("confirmed"), 6))
     // showing top ten countries with highes population
-<<<<<<< HEAD
-    val timeconfDeath1Table = timeConfDeath1.filter($"Country/Region" === "China" || $"Country/Region" === "India" ||
-=======
-    timeConfDeath1.filter($"Country/Region" === "China" || $"Country/Region" === "India" ||
->>>>>>> 9095562e8b94d9a48be2d1aa63ba93abe532a704
-       $"Country/Region" === "US" || $"Country/Region" === "Indonesia" ||
-       $"Country/Region" === "Brazil" || $"Country/Region" === "Pakistan" ||
-       $"Country/Region" === "Nigeria" || $"Country/Region" === "Bangladesh" ||
-       $"Country/Region" === "Russia" || $"Country/Region" === "Mexico")
+    val timeconfDeath1Table = timeConfDeath1.filter(col("Country/Region") === "China" || col("Country/Region") === "India" ||
+       col("Country/Region") === "US" || col("Country/Region") === "Indonesia" ||
+       col("Country/Region") === "Brazil" || col("Country/Region") === "Pakistan" ||
+       col("Country/Region") === "Nigeria" || col("Country/Region") === "Bangladesh" ||
+       col("Country/Region") === "Russia" || col("Country/Region") === "Mexico")
        .orderBy($"Deaths/Confirmed".desc)
-<<<<<<< HEAD
        
-    timeconfDeath1Table.coalesce(1).write.csv("deathConfRatio.csv")
+    timeconfDeath1Table.write.csv("deathConfRatio.csv")
     timeconfDeath1Table.show()
-
-
-
-
   }
+  
 
   def usDeathConfirmedRatio(spark: SparkSession) = {
     import spark.implicits._
@@ -223,35 +197,7 @@ object Main {
  
 
   }
-
-=======
-       .show()
     
-  }
+  
 
-  // method to get death/confirmed case ration from 5 states with high death
-  def usDeathConfirmedRatio(spark: SparkSession) = {
-    import spark.implicits._
-     // loading our tables once again
-    val timeSeriesConfirmedDF = spark.read.format("csv").option("header", "true") .option("mode", "DROPMALFORMED").load("time_series_covid_19_confirmed_US.csv")
-    val timeSeriesDeathsDF = spark.read.format("csv").option("header", "true") .option("mode", "DROPMALFORMED").load("time_series_covid_19_deaths_US.csv")
-    // reducing time series to country/region and latest date as confirmed/deaths respectively
-    val timeSeriesConfirmedDF1 = timeSeriesConfirmedDF.select(col("Province_State"),col("5/2/21").as("confirmed"))
-    val timeSeriesDeathsDF1 = timeSeriesDeathsDF.select(col("Province_State"),col("5/2/21").as("deaths"))
-    // summing duplicate country/regions and removing the duplicates
-    val timeConfReduced = timeSeriesConfirmedDF1.groupBy("Province_State").agg(sum("confirmed")).orderBy("Province_State")
-    val timeDeathReduced = timeSeriesDeathsDF1.groupBy("Province_State").agg(sum("deaths")).orderBy("Province_State")
-    // creating table with country, confirmed, deaths
-    val timeConfDeath = timeDeathReduced.join(timeConfReduced, timeDeathReduced("Province_State").as("dup") === timeConfReduced("Province_State"))
-      .select(timeDeathReduced("Province_State"), col("sum(confirmed)").as("confirmed"),col("sum(deaths)").as("deaths")).orderBy(timeDeathReduced("Province_State"))
-    // adding our ratio of deaths/case
-    val timeConfDeath1 = timeConfDeath.withColumn("Deaths/Confirmed", round(col("deaths")/col("confirmed"), 6))
-    // showing top 5 states with highest amount of deaths
-    //timeConfDeath1.orderBy($"Deaths/Confirmed".desc).show()
-    timeConfDeath1.orderBy($"deaths".desc).show(5)
-
-  }
-
-
->>>>>>> 9095562e8b94d9a48be2d1aa63ba93abe532a704
 }
