@@ -35,10 +35,10 @@ object Main {
     
         
   //deathConfRatio(spark)
-  //usDeathConfirmedRatio(spark)
+  usDeathConfirmedRatio(spark)
   //festiveDeaths(spark)
   monthlyDRratio(spark)
-    
+    usDeathConfirmedRatioSQL(spark)
   }
 
   
@@ -89,10 +89,31 @@ object Main {
     // adding our ratio of deaths/case
     val timeConfDeath1 = timeConfDeath.withColumn("Deaths/Confirmed", round(col("deaths")/col("confirmed"), 6))
     // showing top 5 states with highest amount of deaths
-    //timeConfDeath1.orderBy($"Deaths/Confirmed".desc).show()
-    timeConfDeath1.orderBy($"deaths".desc).show(5)
+    timeConfDeath1.orderBy($"Deaths/Confirmed".desc).show(5)
+    //timeConfDeath1.orderBy($"deaths".desc).show(5)
 
   }
+
+  def usDeathConfirmedRatioSQL(spark: SparkSession) = {
+    import spark.implicits._
+    val timeSeriesConfirmedDFUS = spark.read.format("csv").option("header", "true") .option("mode", "DROPMALFORMED").load("time_series_covid_19_confirmed_US.csv")
+    val timeSeriesDeathsDFUS = spark.read.format("csv").option("header", "true") .option("mode", "DROPMALFORMED").load("time_series_covid_19_deaths_US.csv")
+    //creates temp table to run sql quries on
+    timeSeriesConfirmedDFUS.createOrReplaceTempView("confirmed")
+    timeSeriesDeathsDFUS.createOrReplaceTempView("death")
+    //summing the last table in the time series and ordering it from highest to lowest
+    val confirmed = spark.sql("select Province_State, sum(`5/2/21`) as Confirmed from confirmed group by (Province_State) order by (Confirmed) desc")
+    val deaths = spark.sql("select Province_State, sum(`5/2/21`) as Deaths from death group by (Province_State) order by (Deaths) desc")
+    //creating temp table of the sum data
+    confirmed.createOrReplaceTempView("sumconfirmed")
+    deaths.createOrReplaceTempView("sumdeath")
+    //joining the tables and calculating the ratio for each Province _state and dispalying the highest 5 D/C Ratio and filter our the cruise ship
+    val results = spark.sql("select c.Province_State, Confirmed, Deaths, round((Deaths/confirmed),6) as CD_Ratio from sumconfirmed as c join sumdeath as d where c.Province_State = d.Province_State and not c.Province_State = 'Grand Princess' ")
+    results.createOrReplaceTempView("results")
+    spark.sql("select * from results order by (D/C_Ratio) desc limit 5").show
+
+  }
+
 
 
   def festiveDeaths(spark: SparkSession) = {
