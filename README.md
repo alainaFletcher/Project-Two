@@ -15,14 +15,14 @@ Create a Spark Application that process Covid data. Your project  should involve
 
     
 ## Features 
-* Generate dataframes, datasets, and rdds from the provided .csv files
-* Develop spark sql queries to extract the desired data
+* Generate dataframes, datasets, and rdds from the provided .csv files.
+* Develop spark sql queries to extract the desired data.
 * Observed the death rates across ten countreis.
-* Query dataframes to observe trends in deaths within the US during the holiday season (November 28- January 1)
+* Query dataframes to observe trends in deaths within the US during the holiday season (November 28- January 1).
 * Query dataframes to determine the states with the highest death rates.
-* Query dataframes to compare the death to recovery ratio between April 2020 and April 2021
-* Graphical representation of observed data
-*  Present and communicate results
+* Query dataframes to compare the death to recovery ratio between April 2020 and April 2021.
+* Graphical representation of observed data.
+*  Present and communicate results.
 
 ## Contributors
 *  https://github.com/bknyrandy
