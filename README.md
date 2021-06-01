@@ -24,6 +24,11 @@ Create a Spark Application that process Covid data. Your project  should involve
 * Graphical representation of observed data
 *  Present and communicate results
 
+## Contributors
+*  https://github.com/bknyrandy
+*  https://github.com/Gio-707
+*  https://github.com/alainaFletcher
+
 ![image](https://user-images.githubusercontent.com/82099912/120340748-e9ac7b00-c2bb-11eb-8301-3cf325c6e36b.png)
 ![image](https://user-images.githubusercontent.com/82099912/120340818-f3ce7980-c2bb-11eb-8fd9-0ab2fafecf86.png)
 ![image](https://user-images.githubusercontent.com/82099912/120340889-047eef80-c2bc-11eb-8138-771ae0fd7ddb.png)
